@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+
+<head>
+
+    {{!-- Document Settings --}}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    {{!-- Base Meta --}}
+    <title>{{meta_title}}</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {{!-- Styles'n'Scripts --}}
+    <link href="https://cdn.bootcss.com/social-share.js/1.0.16/css/share.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+
+    {{!-- This tag outputs SEO meta+structured data and other important settings --}}
+    {{ghost_head}}
+
+</head>
+
+<body class="{{body_class}}">
+
+    <div class="site-wrapper">
+
+        {{!-- All the main content gets inserted here, index.hbs, post.hbs, etc --}}
+        {{{body}}}
+
+        {{!-- The footer at the very bottom of the screen --}}
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="{{@blog.url}}">{{@blog.title}}</a> &copy; {{date format="YYYY"}}</section>
+                <nav class="site-footer-nav">
+                    <a href="{{@blog.url}}">最新文章</a>
+                    <a href="https://weibo.com/jaylin0019" target="_blank" rel="noopener">微博</a>
+                    <a href="https://github.com/jaylinwang" target="_blank" rel="noopener">Github</a>
+                    <a href="https://twitter.com/jaylinwang" target="_blank" rel="noopener">Twitter</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    {{!-- The big email subscribe modal content --}}
+    {{#if @labs.subscribers}}
+    <div id="subscribe" class="subscribe-overlay">
+        <a class="subscribe-overlay-close" href="#"></a>
+        <div class="subscribe-overlay-content">
+            {{#if @blog.logo}}
+            <img class="subscribe-overlay-logo" src="{{@blog.logo}}" alt="{{@blog.title}}" />
+            {{/if}}
+            <h1 class="subscribe-overlay-title">订阅「{{@blog.title}}」</h1>
+            <p class="subscribe-overlay-description">通过邮箱接收本站的文章更新动态～～</p>
+            {{subscribe_form placeholder="youremail@example.com"}}
+        </div>
+    </div>
+    {{/if}}
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 10%';
+        })
+    </script>
+
+
+    {{!-- jQuery + Fitvids, which makes all video embeds responsive --}}
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+    {{#if pagination.pages}}
+    <script>
+        // maxPages is a global variable that is needed to determine
+        // if we need to load more pages for the infinitescroll, or if
+        // we reached the last page already.
+        var maxPages = parseInt('{{pagination.pages}}');
+    </script>
+    <script src="{{asset "built/infinitescroll.js"}}"></script>
+    {{/if}}
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?" + window.$onepice.baiduAnalytics;
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    {{!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some
+    JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already
+    loaded. --}}
+    {{{block "scripts"}}}
+
+    {{!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the
+    closing body tag --}}
+    {{ghost_foot}}
+
+</body>
+
+</html>

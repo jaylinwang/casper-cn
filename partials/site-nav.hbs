@@ -1,0 +1,26 @@
+<nav class="site-nav">
+    <div class="site-nav-left">
+        {{^is "home"}}
+            {{#if @blog.logo}}
+                <a class="site-nav-logo" href="{{@blog.url}}"><img src="{{@blog.logo}}" alt="{{@blog.title}}" /></a>
+            {{else}}
+                <a class="site-nav-logo" href="{{@blog.url}}">{{@blog.title}}</a>
+            {{/if}}
+        {{/is}}
+        {{#if @blog.navigation}}
+            {{navigation}}
+        {{/if}}
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            <a class="social-link social-link-fb" href="https://weibo.com/jaylin0019" title="微博" target="_blank" rel="noopener">{{> "icons/weibo"}}</a>
+            <a class="social-link social-link-tw" href="https://github.com/jaylinwang" title="github" target="_blank" rel="noopener">{{> "icons/github"}}</a>
+            <a class="social-link social-link-tw" href="https://twitter.com/jaylinwang" title="twitter" target="_blank" rel="noopener">{{> "icons/twitter"}}</a>
+        </div>
+        {{#if @labs.subscribers}}
+            <a class="subscribe-button" href="#subscribe">订阅</a>
+        {{else}}
+            <a class="rss-button" href="https://feedly.com/i/subscription/feed/{{@blog.url}}/rss/" title="RSS" target="_blank" rel="noopener">{{> "icons/rss"}}</a>
+        {{/if}}
+    </div>
+</nav>
